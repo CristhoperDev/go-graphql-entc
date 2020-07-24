@@ -1,0 +1,48 @@
+type Author {
+    id: ID!
+    status: Int!
+    createdAt: String!
+    updatedAt: String
+    fullName: String!
+    age: Int!
+    films: [Film]
+}
+
+input AuthorFilter {
+    q: String
+    ids: [ID]
+    id: ID
+    createdAt: String
+    updatedAt: String
+    fullName: String!
+    age: Int!
+}
+
+input NewAuthor {
+    fullName: String!
+    age: Int!
+}
+
+input UpdateAuthor {
+    id: ID!
+    fullName: String!
+    age: Int!
+}
+
+extend type Mutation {
+  createAuthor(input: NewAuthor!): Author!
+  updateAuthor(input: UpdateAuthor!): Author!
+  removeAuthor(id: ID!): Boolean
+}
+
+extend type Query {
+  Author(id: ID!): Author
+  allAuthor(
+    page: Int
+    perPage: Int
+    sortField: String
+    sortOrder: String
+    filter: AuthorFilter
+  ): [Author]
+  _allAuthorMeta(page: Int, perPage: Int, filter: AuthorFilter): ListMetadata
+}
