@@ -1,0 +1,54 @@
+# GraphQL schema cristhoperdev
+#
+
+type Film {
+    id: ID!
+    status: Int!
+    createdAt: String!
+    updatedAt: String
+    title: String!
+    description: String!
+    """
+    Edges.
+    """
+    authors: [Author]
+}
+
+input FilmFilter {
+    q: String
+    ids: [ID]
+    id: ID
+    createdAt: String
+    updatedAt: String
+    title: String!
+    description: String!
+}
+
+input NewFilm {
+    title: String!
+    description: String!
+}
+
+input UpdateFilm {
+    id: ID!
+    title: String!
+    description: String!
+}
+
+extend type Mutation {
+  createFilm(input: NewFilm!): Film!
+  updateFilm(input: UpdateFilm!): Film!
+  removeFilm(id: ID!): Boolean
+}
+
+extend type Query {
+  Film(id: ID!): Film
+  allFilm(
+    page: Int
+    perPage: Int
+    sortField: String
+    sortOrder: String
+    filter: FilmFilter
+  ): [Film]
+  _allFilmsMeta(page: Int, perPage: Int, filter: FilmFilter): ListMetadata
+}
