@@ -8,5 +8,12 @@ compose-up: ## Starts a local instance of the service with instances of the even
 compose-down: ## Shutdowns the local containers
 	@docker-compose -p ent_graphql -f docker-compose.yml down
 
-ent:
+entc:
 	entc generate ./internal/provider/entc/schema
+
+gqlgen:
+	gqlgen generate --config ./config/gqlgen.yml
+
+sync:
+	make entc
+	make gqlgen
